@@ -21,6 +21,7 @@ the production cutover depends on the production hardware batch.
 ## Penalty clause
 
 The agreement includes service credits for delivery delays after 2026-11-15.
+These milestone penalties apply when the production hardware delivery milestone
+is missed by more than ten business days.
 The service credits do not compensate Project Apollo for internal project delay
 costs or missed regulatory milestones.
-

@@ -21,3 +21,5 @@ a four to six week schedule impact.
 The revised cutover date may fall outside the support window currently reserved
 with Contoso Managed Services.
 
+The project manager also expects the supplier delay to increase internal run
+costs for the migration team if the cutover moves by more than four weeks.

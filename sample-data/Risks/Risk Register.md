@@ -41,3 +41,16 @@ Mitigation:
 - Schedule a focused review with business owners.
 - Prepare a fallback rule set for low-risk content classes.
 
+## Risk 4: Contingency drawdown above threshold
+
+Severity: Medium
+Probability: Medium
+
+The six-week supplier delay is expected to increase project run costs and may
+push contingency drawdown above the internal budget threshold for Project Apollo.
+
+Mitigation:
+
+- Reforecast the cutover budget with the revised hardware date.
+- Ask the steering committee to approve additional contingency if the partial
+  shipment option is not available.
