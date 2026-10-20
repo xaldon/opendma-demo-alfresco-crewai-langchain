@@ -1,0 +1,105 @@
+research_project_documents:
+  description: >
+    User question:
+    {question}
+
+    Alfresco site short name hint:
+    {site_short_name}
+
+    If the site short name hint is empty, use alfresco_list_sites to find the
+    Alfresco site that matches the project mentioned in the question. Use the
+    returned site short name and root folder for subsequent searches.
+
+    If the site short name hint is not empty, use alfresco_list_sites to verify
+    that the site exists and to get its root folder ID.
+
+    Search the matching Alfresco site for evidence of significant project risks
+    in contracts, status reports and risk documents.
+
+    Use opendma_search to find candidate documents. Use opendma_get_metadata to
+    inspect promising results. Use opendma_read_text only for documents that are
+    likely to contain supporting evidence.
+
+    Treat a risk register as a source of candidate risks, not automatically as
+    the only source required for the answer.
+
+    For each candidate risk, try to find corroborating evidence in at least one
+    independent document when available. Use names, organizations, dependencies
+    and distinctive phrases from the initial evidence as follow-up search terms.
+    For example, after finding a supplier delay, search for the supplier name,
+    the affected deliverable and related status reports.
+
+    opendma_read_text may return has_more and a chunk_continuation_token. If
+    has_more is true and the available chunks do not yet provide sufficient
+    evidence, or indicate that a relevant section follows, call
+    opendma_read_text again for the same object using the returned continuation
+    token. When deciding whether the available text is sufficient, consider all
+    currently uncorroborated candidate risks. The text is not sufficient merely
+    because it supports one risk if later chunks may support another candidate.
+    Continue only until the relevant evidence is found or has_more is false.
+
+    Before producing the dossier, perform a completeness check for every
+    candidate risk:
+
+    1. Review all document results returned by earlier searches. Do not ignore a
+       relevant status report, agreement or contract without inspecting it.
+    2. If a search returns a relevant folder rather than its documents, use
+       opendma_list_children to inspect that folder.
+    3. For every candidate risk that has fewer than two independent supporting
+       documents, make at least one additional tool call: either read a relevant
+       document already discovered or run a focused search using distinctive
+       terms from the risk.
+    4. Do not state that corroboration was not found unless this focused check
+       was actually performed. When no corroboration is found, list the search
+       terms and documents checked.
+    5. Do not return the final dossier while a previously discovered document
+       remains plausibly relevant to an uncorroborated risk.
+
+    Do not produce the final ranked briefing. Produce an evidence dossier for
+    the analyst. Preserve every relevant source found, even when several
+    documents support the same risk. Never discard corroborating sources in
+    favor of the risk register.
+
+    For every finding, retain the source document name and object ID.
+  expected_output: >
+    An evidence dossier grouped by candidate risk. For each candidate, include
+    the apparent severity and probability when stated, a short explanation,
+    and every relevant supporting source with its document name, object ID and
+    concise evidence. Distinguish the primary source from corroborating sources.
+    Mention when corroboration was searched for but not found. Do not rank the
+    final three risks.
+  agent: repository_researcher
+
+rank_project_risks:
+  description: >
+    Using the complete research evidence dossier, independently identify and
+    rank the three most important project risks.
+
+    Compare candidates using stated severity and probability, schedule or
+    operational impact, blocking dependencies and the strength of supporting
+    evidence.
+
+    Rank risks primarily by severity, probability, operational impact and
+    blocking dependencies. The number of corroborating documents affects
+    confidence in the evidence, but a single authoritative source does not make
+    a documented risk unreliable and must not by itself lower the risk ranking.
+    Describe missing corroboration as an evidence-coverage limitation, not as
+    evidence that the risk is doubtful.
+
+    Synthesize the evidence instead of copying the research dossier. For each
+    selected risk, cite all relevant documents supplied by the researcher,
+    including corroborating documents. Prefer evidence supported by multiple
+    independent documents. If only one source was found, cite that source and
+    state that the finding is supported by a single document. Never invent a
+    document, object ID or fact.
+
+    Explain briefly why each risk has its assigned rank.
+  expected_output: >
+    A concise briefing containing three ranked risks. Each risk must include
+    its rank, a synthesized explanation, the reason for its ranking, and a
+    source list containing every relevant document name and object ID from the
+    research dossier. Use multiple citations when corroborating sources are
+    available.
+  agent: project_risk_analyst
+  context:
+    - research_project_documents

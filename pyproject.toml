@@ -1,0 +1,30 @@
+[project]
+name = "opendma-demo-alfresco-crewai-langchain"
+version = "0.1.0"
+description = "CrewAI demo that gives agents access to Alfresco documents through LangChain OpenDMA tools."
+readme = "README.md"
+requires-python = ">=3.10,<4"
+dependencies = [
+    "crewai>=1.15.28",
+    "langchain-opendma[docling]",
+    "docling-slim[format-markdown]",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+alfresco-risk-briefing = "alfresco_research.main:main"
+alfresco-tools-smoke-test = "alfresco_research.smoke_test:main"
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/alfresco_research"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
